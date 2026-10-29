@@ -25,11 +25,20 @@ export async function startServices() {
   const network = `${id}-network`;
   const volume = `${id}-n8n-data`;
   const n8nImage = process.env.N8N_TEST_IMAGE ?? defaultN8nImage;
+  const packageSpec = process.env.N8N_TEST_PACKAGE;
   await mkdir(artifact, { recursive: true });
   const pack = JSON.parse(
-    execFileSync("npm", ["pack", "--json", "--pack-destination", artifact], {
-      encoding: "utf8",
-    }),
+    execFileSync(
+      "npm",
+      [
+        "pack",
+        ...(packageSpec ? [packageSpec] : []),
+        "--json",
+        "--pack-destination",
+        artifact,
+      ],
+      { encoding: "utf8" },
+    ),
   );
   const tarball = pack[0].filename;
   if (
@@ -159,6 +168,7 @@ export async function startServices() {
       n8n,
       browser,
       n8nImage,
+      packageSource: packageSpec ?? "local source",
       packageFiles: pack[0].files,
       resources: { containers, volume, network },
     };

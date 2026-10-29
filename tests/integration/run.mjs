@@ -144,6 +144,7 @@ try {
     verifiedAt: new Date().toISOString(),
     n8nImage: services.n8nImage,
     browserImage,
+    packageSource: services.packageSource,
     operations: verified,
     packageFiles: services.packageFiles.map((file) => file.path),
     editorActionLabel: "Open Tab",

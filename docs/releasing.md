@@ -52,6 +52,11 @@ must be configured by an authorised maintainer before this workflow can publish.
 5. Verify the package's registry metadata and install that registry version in
    a fresh n8n instance. Only then describe it as published and installable by name.
 
+Run the same integration suite against the published registry archive with
+`N8N_TEST_PACKAGE=@frasergrant/n8n-nodes-camoufox@X.Y.Z npm run test:integration`.
+The default CI path packs the current source; this option downloads the named
+registry package instead and records its source in the integration report.
+
 The publish workflow can also be dispatched against an existing version tag.
 It refuses branch refs and mismatched version tags. Never overwrite a published
 version or claim verification by n8n before approval in its Creator Portal.
