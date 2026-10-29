@@ -5,11 +5,41 @@ Actions. The package is MIT-licensed; n8n verification is a separate submission.
 
 ## First npm publication
 
-An npm maintainer must control the `@frasergrant` scope. Configure npm trusted
-publishing for this repository and `.github/workflows/publish.yml`, or provide a
-scoped publishing token through the repository's `NPM_TOKEN` Actions secret.
-Credentials must never be committed. This setup is required before the first
-registry publication; GitHub source availability alone is not an npm release.
+An npm maintainer must control the `@frasergrant` scope. Releases use GitHub
+Actions OIDC through [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/).
+No long-lived npm token or `NPM_TOKEN` Actions secret is needed.
+
+npm requires the package to exist before a trusted publisher can be configured.
+An authenticated npm maintainer must first create or reserve this new package.
+This initial account action requires npm sign-in; GitHub CLI authentication does
+not grant npm account access. Do not publish the real release locally: n8n
+verification requires its provenance-bearing GitHub Actions publication.
+
+Once the package exists, add this trusted publisher in its npm package settings:
+
+| Setting           | Value                                      |
+| ----------------- | ------------------------------------------ |
+| Provider          | GitHub Actions                             |
+| Organization      | `FraserGrant`                              |
+| Repository        | `n8n-nodes-camoufox`                       |
+| Workflow filename | `publish.yml`                              |
+| Environment       | Leave empty                                |
+| Allowed action    | Allow direct publishing with `npm publish` |
+
+New npm trust configurations allow staged publishing by default, so explicitly
+enable direct publishing for this workflow. Complete its first publish within
+npm's two-day trust-configuration window. Future releases receive short-lived
+credentials from GitHub automatically and include provenance.
+
+The [npm trust CLI prerequisites](https://docs.npmjs.com/cli/v11/commands/npm-trust/#prerequisites)
+document the existing-package requirement. An initial reservation can use
+[npm staged publishing](https://docs.npmjs.com/staged-publishing/), which creates
+a public `0.0.0-stage` placeholder for a new package; publishing or approving a
+staged version is a distinct action. Do not approve a local staged copy as the
+real node release when a GitHub provenance release is required.
+
+GitHub source availability alone is not an npm release. npm trusted publishing
+must be configured by an authorised maintainer before this workflow can publish.
 
 ## Release a version
 
