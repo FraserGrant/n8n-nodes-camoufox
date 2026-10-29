@@ -10,11 +10,12 @@ This MIT-licensed package connects to the [Camofox REST service](https://github.
 around the Camoufox Firefox browser. It does not install a browser into n8n and
 does not connect to a raw Playwright WebSocket server.
 
-Package: `@frasergrant/n8n-nodes-camoufox`. Maintained by [FraserGrant](https://fraser-grant.com).
+Package: [@frasergrant/n8n-nodes-camoufox](https://www.npmjs.com/package/@frasergrant/n8n-nodes-camoufox).
+Maintained by [FraserGrant](https://fraser-grant.com).
 
 ## Installation
 
-Once published to npm, self-hosted n8n administrators can install the package under
+Self-hosted n8n administrators can install the package under
 **Settings → Community nodes** using its full package name.
 
 For a downloaded release archive, install the tarball in n8n's community-package

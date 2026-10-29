@@ -38,6 +38,11 @@ a public `0.0.0-stage` placeholder for a new package; publishing or approving a
 staged version is a distinct action. Do not approve a local staged copy as the
 real node release when a GitHub provenance release is required.
 
+Keep the bootstrap stage until the real release is published. Rejecting the
+only staged version of a new package removes its registry placeholder and can
+make the first OIDC publish fail with a registry 404. Remove that reservation
+after the real version is confirmed in the registry.
+
 GitHub source availability alone is not an npm release. npm trusted publishing
 must be configured by an authorised maintainer before this workflow can publish.
 
