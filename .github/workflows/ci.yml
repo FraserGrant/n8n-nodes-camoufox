@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Package and browser actions (n8n ${{ matrix.n8n }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - n8n: 2.44.5
+            image: docker.n8n.io/n8nio/n8n@sha256:bcb4e4917141f4a5249c8eadf2776d347f4c2ede75adfbbc82064826af9a8ead
+          - n8n: 2.45.5
+            image: docker.n8n.io/n8nio/n8n@sha256:9f6d0a5987ab5a297c4b0b38fbf1a22285dd1364551478e93f03d506908fa74c
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run check
+      - name: Install the browser for the n8n editor regression
+        run: npx playwright install --with-deps chromium
+      - name: Install tarball and execute real n8n workflows
+        run: npm run test:integration
+        env:
+          N8N_TEST_IMAGE: ${{ matrix.image }}
+      - name: Tested npm package
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: camoufox-package-n8n-${{ matrix.n8n }}
+          path: .local/package.tgz
+          include-hidden-files: true
+          if-no-files-found: error
+      - name: Integration evidence
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: integration-evidence-n8n-${{ matrix.n8n }}
+          path: |
+            .local/**/report.json
+            .local/**/*.log
+            .local/**/editor.png
+          include-hidden-files: true
+          retention-days: 7

@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.local/
+coverage/
+*.tgz
+*.tsbuildinfo
+.env
+.playwright-cli/
+test-results/

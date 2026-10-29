@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.local/
+coverage/
+package-lock.json
+AGENTS.md
+test-results/
+eslint.config.mjs

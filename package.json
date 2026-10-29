@@ -1,0 +1,74 @@
+{
+  "name": "@frasergrant/n8n-nodes-camoufox",
+  "version": "0.1.0",
+  "description": "Camoufox browser actions for n8n through the Camofox REST API",
+  "license": "MIT",
+  "homepage": "https://github.com/FraserGrant/n8n-nodes-camoufox#readme",
+  "keywords": [
+    "n8n-community-node-package",
+    "camoufox",
+    "camofox",
+    "browser-automation"
+  ],
+  "author": {
+    "name": "FraserGrant",
+    "url": "https://fraser-grant.com",
+    "email": "connor@fraser-grant.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FraserGrant/n8n-nodes-camoufox.git"
+  },
+  "bugs": {
+    "url": "https://github.com/FraserGrant/n8n-nodes-camoufox/issues"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "files": [
+    "dist/credentials",
+    "dist/nodes",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "n8n-node build",
+    "dev": "n8n-node dev",
+    "format": "prettier --write .",
+    "lint": "eslint --config eslint.engineering.config.mjs",
+    "lint:n8n": "n8n-node lint",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/*.test.mjs",
+    "test:integration": "node tests/integration/run.mjs",
+    "check": "prettier --check . && npm run lint && npm run typecheck && npm run lint:n8n && npm run build && npm test",
+    "prepublishOnly": "npm run check && npm run build"
+  },
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "strict": true,
+    "credentials": [
+      "dist/credentials/CamoufoxApi.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/Camoufox/Camoufox.node.js"
+    ]
+  },
+  "peerDependencies": {
+    "n8n-workflow": "*"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@n8n/node-cli": "0.54.4",
+    "@playwright/test": "1.64.1",
+    "@types/node": "22.19.15",
+    "eslint": "10.13.0",
+    "eslint-plugin-unicorn": "66.0.0",
+    "n8n-workflow": "2.16.0",
+    "prettier": "3.9.10",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.70.0"
+  }
+}

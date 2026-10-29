@@ -1,0 +1,11 @@
+{
+  "node": "@frasergrant/n8n-nodes-camoufox.camoufox",
+  "nodeVersion": "1.0",
+  "codexVersion": "1.0",
+  "categories": ["Utility"],
+  "resources": {
+    "primaryDocumentation": [
+      { "url": "https://github.com/FraserGrant/n8n-nodes-camoufox#readme" }
+    ]
+  }
+}

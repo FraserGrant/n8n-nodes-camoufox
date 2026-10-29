@@ -1,0 +1,92 @@
+{
+  "name": "Read a page with Camoufox",
+  "nodes": [
+    {
+      "id": "trigger",
+      "name": "When clicking Execute workflow",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 0],
+      "parameters": {}
+    },
+    {
+      "id": "open",
+      "name": "Open Tab",
+      "type": "@frasergrant/n8n-nodes-camoufox.camoufox",
+      "typeVersion": 1,
+      "position": [240, 0],
+      "parameters": {
+        "operation": "openTab",
+        "userId": "n8n",
+        "sessionKey": "example",
+        "url": "https://example.com",
+        "options": {}
+      }
+    },
+    {
+      "id": "snapshot",
+      "name": "Get Snapshot",
+      "type": "@frasergrant/n8n-nodes-camoufox.camoufox",
+      "typeVersion": 1,
+      "position": [480, 0],
+      "parameters": {
+        "operation": "getSnapshot",
+        "userId": "={{ $json.userId }}",
+        "tabId": "={{ $json.tabId }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "close",
+      "name": "Close Tab",
+      "type": "@frasergrant/n8n-nodes-camoufox.camoufox",
+      "typeVersion": 1,
+      "position": [720, 0],
+      "parameters": {
+        "operation": "closeTab",
+        "userId": "={{ $json.userId }}",
+        "tabId": "={{ $json.tabId }}",
+        "options": {}
+      }
+    }
+  ],
+  "connections": {
+    "When clicking Execute workflow": {
+      "main": [
+        [
+          {
+            "node": "Open Tab",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Open Tab": {
+      "main": [
+        [
+          {
+            "node": "Get Snapshot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Snapshot": {
+      "main": [
+        [
+          {
+            "node": "Close Tab",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false
+}
